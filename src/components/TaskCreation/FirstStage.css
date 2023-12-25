@@ -1,0 +1,80 @@
+
+div.checkboxes {
+    margin: 10px 0;
+    padding: 14px 25px;
+    background-color: #D9D9D9;
+    width: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+
+div.container {
+    width: 80%;
+    padding: 10px;
+    margin: auto;
+    border: 2px solid;
+}
+
+button.next {
+    margin-top: 15px;
+    color: #ffffff;
+    width: 190px;
+    cursor: pointer;
+    padding: 10px 15px;
+    border: none;
+    font-weight: bold;
+    background-color: #2B53FF;
+    border-radius: 15px;
+    float: right;
+}
+
+button.prev {
+    margin-top: 15px;
+    color: #ffffff;
+    width: 190px;
+    cursor: pointer;
+    padding: 10px 15px;
+    border: none;
+    font-weight: bold;
+    background-color: #2B53FF;
+    border-radius: 15px;
+    float: left;
+}
+
+div.button-area {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+p.alert-warning-invalid-score {
+    color: red;
+}
+  
+.id .tooltiptext {
+    left: 5%;
+    top: 40px;
+    margin-left: -5px;
+    border-width: 5px;
+    position: absolute;
+    visibility: hidden;
+    background-color: #ffffff;
+    color: #6A706E;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    border: 1px solid;
+    
+
+    
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.id:hover .tooltiptext {
+    visibility: visible;
+}

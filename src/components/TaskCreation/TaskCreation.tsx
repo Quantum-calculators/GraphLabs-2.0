@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import "./TaskCreation.css"
-import ListCheckBox from "./ListCheckBox";
-import ListScoreBox from "./ListScoreBox";
-import TaskDetails from "./TaskDetails";
+import FirstStage from "./FirstStage";
+import SecondStage from "./SecondStage";
+import ThirdStage from "./ThirdStage";
 
 
 interface Props {
     all_list: {id: number, value: string}[];
     final_list?: {id: number, value: string}[];
+    groups: {id: number, name: string}[]
 }
 
 class TaskCreation extends Component<Props> {
@@ -16,13 +17,17 @@ class TaskCreation extends Component<Props> {
          all_list: [],
          state: 0
     };
-
-     final_list: {id: number, value: string}[] = []
+    final_list: {id: number, value: string}[] = []
     stage = 0
-    modules_max_scores: number[] = []
-    maxTime = 0;
-    dateStart = "";
-    dateEnd = "";
+    modules_scores: {id: number, value: string, score: number}[] = []
+    task_info: {execution_time: number, deadline_start: string, deadline_end: string, is_unlimited: boolean} = {
+        execution_time: 0,
+        deadline_start: "",
+        deadline_end: "",
+        is_unlimited: false
+    };
+
+
 
 
     // first stage handlers
@@ -33,7 +38,6 @@ class TaskCreation extends Component<Props> {
     public firstStageNext = (list: {id: number, value: string}[]) => {
         this.final_list = list
         this.stage = 1
-        console.log(this.stage)
         this.forceUpdate()
     }
 
@@ -43,11 +47,11 @@ class TaskCreation extends Component<Props> {
         this.forceUpdate()
     }
 
-    public secondStageNext = (list: number[]) => {
-        this.modules_max_scores = list
+    public secondStageNext = (list: {id: number, value: string, score: number}[]) => {
+        this.modules_scores = list
         this.stage = 2
-        console.log(this.stage)
         this.forceUpdate()
+        console.log(this.modules_scores)
     }
 
     // third stage handlers
@@ -56,43 +60,43 @@ class TaskCreation extends Component<Props> {
         this.forceUpdate()
     }
 
-    public thirdStageNext = () => {
+    public thirdStageNext = (task_info: {execution_time: number, 
+                                        deadline_start: string | null, 
+                                        deadline_end: string | null, 
+                                        is_unlimited: boolean | null,
+                                        groups_ids: number[],
+                                        task_name: string}) => {
+        console.log(task_info)
         this.stage = 3
         this.forceUpdate()
     }
 
-
     public render() {
         if (this.stage === 0) {
             return (
-                <>
-                    <h2>Создание задания</h2>
-                    <h4>Выберите модули</h4>
-                    <ListCheckBox list={this.props.all_list}
-                                  nextStage={this.firstStageNext}
-                                  prevStage={this.firstStagePrev}/>
-                </>
+                    <FirstStage list={this.props.all_list}
+                                nextStage={this.firstStageNext}
+                                prevStage={this.firstStagePrev}/>
             );
         }
         if (this.stage === 1) {
             return (
-                <>
-                    <h2>Создание задания</h2>
-                    <h4>Присвойте баллы модулям</h4>
-                    <ListScoreBox list={this.final_list}
-                                  nextStage={this.secondStageNext}
-                                  prevStage={this.secondStagePrev}/>
-                </>
+                    <SecondStage list={this.final_list}
+                                 nextStage={this.secondStageNext}
+                                 prevStage={this.secondStagePrev}/>
             );
         }
         if (this.stage === 2) {
             return (
+                    <ThirdStage nextStage={this.thirdStageNext}
+                                prevStage={this.thirdStagePrev}
+                                groups={this.props.groups}/>
+            );
+        }
+        if (this.stage === 3) {
+            return (
                 <>
-                    <h2>Создание задания</h2>
-                    <h4>Введите время и сроки выполнения задания</h4>
-                    <TaskDetails
-                        nextStage={this.thirdStageNext}
-                        prevStage={this.thirdStagePrev}/>
+                    <h2>Задание успешно создано!</h2>
                 </>
             );
         }
